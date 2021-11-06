@@ -1,12 +1,14 @@
 import { React, useState } from 'react'
 import Navbar from '../../componentes/Nav/Navbar';
 import Rodape from '../../componentes/Rodape';
-import SelecionadorData from '../../componentes/SelecionadorData'
 import StyledButton from '../../componentes/StyledButton'
 import InputHora from '../../componentes/InputHora';
 import api from '../../servicos/api';
 import './NovaDenuncia.css'
 import ReactDatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const NovaDenuncia = () => {
 
@@ -31,28 +33,44 @@ const NovaDenuncia = () => {
     const [hora, setHora] = useState('');
     const handleInputHora = ({ target: { value } }) => setHora(value)
 
-    //const handleInputHora = ({ target: { value } }) => { {setHora(value)} {setJson(json.data = value)}}
-    //const handleInputHora = ({ target: { value } }) => { {setHora(value)} {console.log(value.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi,''))}}
-    //const handleInputHora = ({ target: { value } }) => { {setHora(value)} {setJson(json.data =- value.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi,''))}}
-
     function handle(e) {
         const novoJson = { ...json }
         novoJson[e.target.id] = e.target.value
         setJson(novoJson)
-
-        json.data = dataInicio
-        json.hora = hora + ':00'
-        console.log(json)
     }
+
+    const MySwal = withReactContent(Swal)
 
     function submit(e) {
         e.preventDefault();
+        let codigoResposta
+
+        json.data = dataInicio
+        json.hora = hora + ':00'
 
         api.post('denuncias/novo', json)
-            .then((response) => {
-                alert('feito');
-            });
+        .then((response) => {
 
+            // O post não está retornando o código (gerado por trigger)
+            // por enquanto é feito um get para obtê-lo
+
+            api.get('denuncias/' + response.data.id)
+            .then((response2) => {
+                
+                codigoResposta = response2.data.codigo
+                console.log(response2.data.codigo)
+
+                MySwal.fire({
+                    title: <p>Denúncia efetuada!</p>,
+                    footer: 'IBAMA 2021',
+                    html: <><p>Guarde o código da denúncia para consultá-la posteriormente:</p>
+                    <b>{response2.data.codigo}</b></>
+                  })
+            });
+        });
+
+       
+        
     }
 
     return (
@@ -61,8 +79,7 @@ const NovaDenuncia = () => {
             <div className="main">
                 <div className="containerForm">
                     <div className="formulario">
-                        {/* <form onSubmit={(e) => submit(e)}> */}
-                        <form>
+                        <form onSubmit={(e) => submit(e)}>
                             <h1 className="titulo">Nova denúncia</h1><br />
                             <h3 className="subtitulo">Informações para contato</h3><br />
                             <div className="campo">
@@ -106,13 +123,7 @@ const NovaDenuncia = () => {
                                     onChange={(e) => handle(e)} value={json.descricao} />
                             </div>
                             <div className="divBotao">
-                                <StyledButton text="Enviar"
-                                    onClick={
-                                        function () {
-                                            json.hora = hora
-                                            console.log(json)
-                                        }
-                                    } />
+                                <StyledButton text="Enviar"/>
                             </div>
                         </form>
                     </div>
