@@ -4,9 +4,12 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const SelecionadorData = () => {
     const [dataInicio, setDataInicio] = useState(new Date());
+
     return(
         <DatePicker 
-        selected={dataInicio} 
+        selected={dataInicio}
+        dateFormat="dd/MM/yyyy"
+        maxDate={new Date()}
         onChange={(data) => setDataInicio(data)}
         />
     )

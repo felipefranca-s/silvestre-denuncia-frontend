@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom';
-import Navbar from '../Nav/Navbar';
-import Rodape from '../Rodape';
-import StoreContext from '../Store/Context';
-import StyledButton from '../StyledButton'
+import Navbar from '../../componentes/Nav/Navbar';
+import Rodape from '../../componentes/Rodape';
+import StoreContext from '../../componentes/Store/Context';
+import StyledButton from '../../componentes/StyledButton'
 import './UsuarioLogin.css'
 
 function initialState() {
