@@ -52,7 +52,7 @@ const UsuarioLogin = () => {
 
         if (token) {
             setToken(token);
-            return history.push('/AreaRestrita');
+            return history.push('/Gerenciamento');
         }
         else {
             MySwal.fire({

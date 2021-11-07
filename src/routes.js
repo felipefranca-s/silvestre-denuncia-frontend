@@ -6,7 +6,8 @@ import StoreProvider from "./componentes/Store/Provider";
 import RoutesPrivate from "./componentes/Routes/Private/Private";
 import NovaDenuncia from "./paginas/NovaDenuncia/NovaDenuncia";
 import UsuarioLogin from "./paginas/UsuarioLogin/UsuarioLogin"
-import AreaRestrita from "./paginas/AreaRestrita"
+import Gerenciamento from "./paginas/Gerenciamento/Gerenciamento"
+import GerenciamentoDenuncias from "./paginas/Gerenciamento/Denuncias/Denuncias";
 
 function Routes() {
     return (
@@ -16,7 +17,8 @@ function Routes() {
                 <Route path="/NovaDenuncia" exact component={NovaDenuncia} />
                 <Route path="/ConsultarDenuncia" exact component={ConsultarDenuncia} />
                 <Route path="/UsuarioLogin" exact component={UsuarioLogin} />
-                <RoutesPrivate path="/AreaRestrita" exact component={AreaRestrita} />
+                <RoutesPrivate path="/Gerenciamento" exact component={Gerenciamento} />
+                <RoutesPrivate path="/Gerenciamento/Denuncias" exact component={GerenciamentoDenuncias} />
             </StoreProvider>
         </BrowserRouter>
     )

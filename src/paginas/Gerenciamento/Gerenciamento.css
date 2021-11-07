@@ -1,0 +1,47 @@
+.containerGerenciamento{
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.divGerenciamento{
+    background-color: #222629;
+    width: 50%;
+    margin: auto;
+    border-radius: 10px;
+    padding-top: 2%;
+    height: 200px;
+    width: auto;
+    max-width: 500px;
+    min-width: 308;
+}
+
+.titulo {
+    color: #86C232;
+    font-size: 30px;
+    margin-left: 6%;
+}
+
+.cardFuncaoGerenciamento{
+    background-color: #6B6E70;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 90%;
+    padding-top: 10px;
+    border-radius: 10px;
+}
+
+.subtitulo {
+    color: #ffffff;
+    font-size: 24px;
+    margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+    .divGerenciamento {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    .table{
+        width: auto;
+    }
+}

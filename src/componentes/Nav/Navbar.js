@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import Burger from "./Burger";
+import StoreContext from '../../componentes/Store/Context';
 
 const Nav = styled.nav`
     width: 100%;
@@ -19,12 +20,22 @@ const Nav = styled.nav`
 `;
 
 const Navbar = () => {
+
+    const { token } = useContext(StoreContext);
+
     return (
         <Nav>
             <div>
-                <div className="logo">
-                    IBAMA
-                </div>
+                {
+                    token ?
+                        <div className="logo">
+                            IBAMA (Administrador)
+                        </div>
+                        :
+                        <div className="logo">
+                            IBAMA
+                        </div>
+                }
             </div>
             <Burger />
         </Nav>

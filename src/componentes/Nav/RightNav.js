@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import StyledLink from "../StyledLink";
+import StoreContext from "../Store/Context";
 
 const Ul = styled.ul`
 
@@ -28,23 +29,45 @@ const Ul = styled.ul`
     }
 `;
 
-
 const RightNav = ({ open }) => {
+
+    const { token, setToken } = useContext(StoreContext);
+
+    function deslogar(e){
+        e.preventDefault()
+        
+        const token = null
+
+        setToken(token)
+    }
+
     return (
-      <Ul open={open}>
-        <StyledLink to="/">
-            <li>Home</li>
-        </StyledLink>
-        <StyledLink to="/NovaDenuncia">
-            <li>Nova denúncia</li>
-        </StyledLink>
-        <StyledLink to="/ConsultarDenuncia">
-            <li>Consultar denúncia</li>
-        </StyledLink>
-        <StyledLink to="/UsuarioLogin">
-            <li>Área restrita</li>
-        </StyledLink>
-      </Ul>
+        <Ul open={open}>
+            <StyledLink to="/">
+                <li>Home</li>
+            </StyledLink>
+            <StyledLink to="/NovaDenuncia">
+                <li>Nova denúncia</li>
+            </StyledLink>
+            <StyledLink to="/ConsultarDenuncia">
+                <li>Consultar denúncia</li>
+            </StyledLink>
+            {
+                token ?
+                    <>
+                        <StyledLink to="/Gerenciamento">
+                            <li>Gerenciamento</li>
+                        </StyledLink>
+                        <StyledLink to="#" onClick={deslogar}>
+                            <li>Sair</li>
+                        </StyledLink>
+                    </>
+                    :
+                    <StyledLink to="/UsuarioLogin">
+                        <li>Área restrita</li>
+                    </StyledLink>
+            }
+        </Ul>
     )
 }
 

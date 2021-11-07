@@ -58,7 +58,7 @@ const NovaDenuncia = () => {
                     title: <p>Denúncia efetuada!</p>,
                     footer: 'Ciências da Computação - UNIP 2021',
                     html: <><p>Guarde o código da denúncia para consultá-la posteriormente:</p>
-                    <b>{response2.data.codigo}</b></>
+                    <br /><b>{response2.data.codigo}</b></>
                   })
             });
         });
