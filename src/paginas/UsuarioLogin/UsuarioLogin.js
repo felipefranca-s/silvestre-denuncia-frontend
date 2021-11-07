@@ -5,16 +5,25 @@ import Rodape from '../../componentes/Rodape';
 import StoreContext from '../../componentes/Store/Context';
 import StyledButton from '../../componentes/StyledButton'
 import './UsuarioLogin.css'
+import api from '../../servicos/api';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 function initialState() {
     return { user: '', password: '' };
 }
 
-function login({ user, password }) {
-    if (user === 'admin' && password === 'admin') {
-        return { token: '1234' };
-    }
-    return { error: "Usuário ou senha inválido" }
+async function login ({ user, password}) {
+    return await api.get('usuarios/validarSenha',{
+    params:{
+        login: user,
+        senha: password
+    }}).then((response) => {
+        return response.data
+    }).catch(error => {
+        return false
+    })
+    
 }
 
 const UsuarioLogin = () => {
@@ -25,6 +34,7 @@ const UsuarioLogin = () => {
 
     const { setToken } = useContext(StoreContext);
 
+    const MySwal = withReactContent(Swal)
 
     function onChange(event) {
         const { value, name } = event.target;
@@ -35,20 +45,23 @@ const UsuarioLogin = () => {
         });
     }
 
-    function onSubmit(event) {
-        event.preventDefault();
+    const onSubmit = async (e) => {
+        e.preventDefault();
 
-        const { token } = login(values);
+        const token = await login(values);
 
         if (token) {
             setToken(token);
-            alert('acertou');
-            return history.push('/');
+            return history.push('/AreaRestrita');
         }
         else {
-            alert('errou');
+            MySwal.fire({
+                title: <p>Atenção!</p>,
+                footer: 'Ciências da Computação - UNIP 2021',
+                html: <p>Usuário ou senha icorretos</p>               
+              })
             setValues(initialState);
-        }
+        }       
     }
 
     return (

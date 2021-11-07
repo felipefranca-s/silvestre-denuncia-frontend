@@ -6,7 +6,7 @@ import StoreProvider from "./componentes/Store/Provider";
 import RoutesPrivate from "./componentes/Routes/Private/Private";
 import NovaDenuncia from "./paginas/NovaDenuncia/NovaDenuncia";
 import UsuarioLogin from "./paginas/UsuarioLogin/UsuarioLogin"
-import AreaRestrita from "./paginas/UsuarioLogin/UsuarioLogin"
+import AreaRestrita from "./paginas/AreaRestrita"
 
 function Routes() {
     return (
