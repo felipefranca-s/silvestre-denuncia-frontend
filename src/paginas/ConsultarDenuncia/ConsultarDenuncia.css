@@ -3,13 +3,21 @@
     padding-bottom: 30px;
 }
 
-.card {
+.divConsulta, .divResultado {
     background-color: #222629;
     width: 50%;
     margin: auto;
     border-radius: 10px;
     padding-top: 2%;
+}
+
+.divConsulta{
     height: 270px;
+}
+
+.divResultado{
+    height: auto;
+    padding-bottom: 30px;
 }
 
 .titulo {
@@ -59,7 +67,7 @@ button {
 }
 
 @media (max-width: 1200px) {
-    .card {
+    .divConsulta .divResultado {
         width: 80%;
     }
     .titulo {
@@ -74,7 +82,36 @@ button {
 }
 
 @media (max-width: 768px) {
-    .formulario {
+    .divConsulta, .divResultado {
         width: 90%;
     }
+    .table{
+        width: auto;
+    }
 }
+
+
+table{
+    margin-left: 6%;
+    margin-right: 6%;
+    margin-bottom: 4%;
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 88%;
+}
+
+th{
+    border: 1px solid #86C232;
+    background: #474B4F;
+  	color: white;
+    padding: 5px;
+    text-align: center;
+}
+
+td{
+    border: 1px solid #86C232;
+    background: #6B6E70;
+    padding: 5px;
+    text-align: left;
+    color: white;
+  }

@@ -43,34 +43,25 @@ const NovaDenuncia = () => {
 
     function submit(e) {
         e.preventDefault();
-        let codigoResposta
 
         json.data = dataInicio
         json.hora = hora + ':00'
 
-        api.post('denuncias/novo', json)
-        .then((response) => {
+        api.post('denuncias/novo', json).then((response) => {
 
             // O post não está retornando o código (gerado por trigger)
             // por enquanto é feito um get para obtê-lo
 
-            api.get('denuncias/' + response.data.id)
-            .then((response2) => {
+            api.get('denuncias/' + response.data.id).then((response2) => {
                 
-                codigoResposta = response2.data.codigo
-                console.log(response2.data.codigo)
-
                 MySwal.fire({
                     title: <p>Denúncia efetuada!</p>,
-                    footer: 'IBAMA 2021',
+                    footer: 'Ciências da Computação - UNIP 2021',
                     html: <><p>Guarde o código da denúncia para consultá-la posteriormente:</p>
                     <b>{response2.data.codigo}</b></>
                   })
             });
         });
-
-       
-        
     }
 
     return (
