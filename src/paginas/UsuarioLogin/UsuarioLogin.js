@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import Navbar from '../../componentes/Nav/Navbar';
 import Rodape from '../../componentes/Rodape';
 import StoreContext from '../../componentes/Store/Context';
-import StyledButton from '../../componentes/StyledButton'
 import './UsuarioLogin.css'
 import api from '../../servicos/api';
 import Swal from 'sweetalert2'
@@ -58,7 +57,9 @@ const UsuarioLogin = () => {
             MySwal.fire({
                 title: <p>Atenção!</p>,
                 footer: 'Ciências da Computação - UNIP 2021',
-                html: <p>Usuário ou senha icorretos</p>               
+                confirmButtonColor: '#86C232',
+                html: <p>Usuário ou senha icorretos</p>,
+                icon: 'error'
               })
             setValues(initialState);
         }       
@@ -82,7 +83,7 @@ const UsuarioLogin = () => {
                                 <input type="password" name="password" id="password" value={values.password} required onChange={onChange} />
                             </div>
                             <div className="divBotao">
-                                <StyledButton text="Acessar" />
+                                <button className="botaoVerde">Acessar</button>
                             </div>
                         </form>
                     </div>

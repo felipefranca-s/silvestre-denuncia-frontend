@@ -1,12 +1,10 @@
 import { React, useState } from 'react'
 import Navbar from '../../componentes/Nav/Navbar'
 import Rodape from '../../componentes/Rodape'
-import StyledButton from '../../componentes/StyledButton'
 import api from '../../servicos/api'
 import './ConsultarDenuncia.css'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 
 const ConsultarDenuncia = () => {
@@ -28,6 +26,10 @@ const ConsultarDenuncia = () => {
         codigo: "",
         atualizacoes: []
     })
+
+    function recarregarPagina() {
+        window.location.reload(false);
+    }
 
     function submit(e) {
         e.preventDefault();
@@ -53,8 +55,10 @@ const ConsultarDenuncia = () => {
             else {
                 MySwal.fire({
                     title: <p>Código não encontrado</p>,
+                    confirmButtonColor: '#86C232',
                     footer: 'Ciências da Computação - UNIP 2021',
-                    html: <p>Tente novamente.</p>
+                    html: <p>Tente novamente.</p>,
+                    icon: 'error'
                 })
             }
         })
@@ -76,7 +80,7 @@ const ConsultarDenuncia = () => {
                                             onInput={(e) => setCodigo(e.target.value)} />
                                     </div>
                                     <div className="divBotaoLeft">
-                                        <StyledButton text="Enviar" />
+                                        <button className="botaoVerde">Enviar</button>
                                     </div>
                                 </form>
                             </div>
@@ -132,24 +136,23 @@ const ConsultarDenuncia = () => {
                                                     <table>
                                                         <tbody>
                                                             <tr>
-                                                                <th>Ordem</th>
-                                                                <th>Detalhes</th>
                                                                 <th>Data</th>
                                                                 <th>Hora</th>
+                                                                <th>Detalhes</th>
+
                                                             </tr>
                                                         </tbody>
                                                         {
                                                             resultado.atualizacoes.map(atualizacao =>
                                                                 <>
                                                                     <tr>
-                                                                        <td>{atualizacao.ordem}</td>
-                                                                        <td>{atualizacao.atualizacao}</td>
                                                                         <td>
                                                                             <Moment format="DD/MM/YYYY">
                                                                                 {atualizacao.data}
                                                                             </Moment>
                                                                         </td>
-                                                                        <td>{atualizacao.hora.substr(0,5)}</td>
+                                                                        <td>{atualizacao.hora.substr(0, 5)}</td>
+                                                                        <td>{atualizacao.atualizacao}</td>
                                                                     </tr>
                                                                 </>
                                                             )
@@ -164,10 +167,7 @@ const ConsultarDenuncia = () => {
                                     </>
                                 }
                                 <div className="divBotaoLeft">
-                                    <Link to='/'>
-                                        <StyledButton text="Início" />
-                                    </Link>
-
+                                    <button className="botaoVerde" onClick={recarregarPagina}>Voltar </button>
                                 </div>
                             </div>
                     }

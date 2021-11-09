@@ -8,6 +8,7 @@ import NovaDenuncia from "./paginas/NovaDenuncia/NovaDenuncia";
 import UsuarioLogin from "./paginas/UsuarioLogin/UsuarioLogin"
 import Gerenciamento from "./paginas/Gerenciamento/Gerenciamento"
 import GerenciamentoDenuncias from "./paginas/Gerenciamento/Denuncias/Denuncias";
+import GerenciamentoEditarDenuncia from "./paginas/Gerenciamento/Denuncias/EditarDenuncia/EditarDenuncia";
 
 function Routes() {
     return (
@@ -19,6 +20,7 @@ function Routes() {
                 <Route path="/UsuarioLogin" exact component={UsuarioLogin} />
                 <RoutesPrivate path="/Gerenciamento" exact component={Gerenciamento} />
                 <RoutesPrivate path="/Gerenciamento/Denuncias" exact component={GerenciamentoDenuncias} />
+                <RoutesPrivate path="/Gerenciamento/Denuncias/EditarDenuncia/:denunciaId" exact component={GerenciamentoEditarDenuncia} />
             </StoreProvider>
         </BrowserRouter>
     )

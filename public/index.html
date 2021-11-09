@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -24,29 +22,111 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+  <title>React App</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 
-      *{
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-        font-family: 'Raleway', sans-serif;
-      }     
-      
-      .main{
-        margin: 0 auto;
-        min-height: calc(100vh - 57px - 70px);
-        background-color: #474B4f;
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 'Raleway', sans-serif;
+    }
+
+    .main {
+      margin: 0 auto;
+      min-height: calc(100vh - 57px - 70px);
+      background-color: #474B4f;
+    }
+
+    .containerConteudo {
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+
+    .divConteudo {
+      background-color: #222629;
+      width: auto;
+      max-width: 90%;
+      margin: auto;
+      border-radius: 10px;
+      padding-top: 2%;
+    }
+
+    .divTable{
+      overflow-x: auto;
+    }
+
+    .botaoVerde {
+      font-size: 1.2em;
+      background: #86C232;
+      border: 0;
+      color: #ffffff;
+      padding: 0.5em 0.8em;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+      text-shadow: 1px 1px 1px rgb(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+
+    .botaoVerde:hover {
+      background: #61892F;
+      box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2);
+      text-shadow: none;
+    }
+
+    .botaoVermelho {
+      font-size: 1.2em;
+      background: #d10707;
+      border: 0;
+      color: #ffffff;
+      padding: 0.5em 0.8em;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+      text-shadow: 1px 1px 1px rgb(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+
+    .botaoVermelho:hover {
+      background: #8f0808;
+      box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2);
+      text-shadow: none;
+    }
+
+    .botaoAzul {
+      font-size: 1.2em;
+      background: #0030eb;
+      border: 0;
+      color: #ffffff;
+      padding: 0.5em 0.8em;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+      text-shadow: 1px 1px 1px rgb(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+
+    .botaoAzul:hover {
+      background: #10035a;
+      box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2);
+      text-shadow: none;
+    }
+
+    input[type="text"][disabled],
+    textarea[type="text"][disabled] {
+      color: rgba(0, 0, 0, 0.61);
+      background-color: #aaa6a6;
+    }
+
+    @media (min-width: 1200px) {
+        
+      .divConteudo{
+        width: 50%;
       }
+    }
+  </style>
+</head>
 
-    </style>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -56,5 +136,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>

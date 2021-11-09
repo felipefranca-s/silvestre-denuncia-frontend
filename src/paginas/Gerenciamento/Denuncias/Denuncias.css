@@ -3,8 +3,6 @@
     padding-bottom: 30px;
 }
 
-
-
 .titulo {
     color: #86C232;
     font-size: 30px;
@@ -70,32 +68,7 @@ button {
     .divConsulta, .divResultado {
         width: 90%;
     }
-    .table{
+    /* .table{
         width: auto;
-    }
+    } */
 }
-
-table{
-    margin-left: 6%;
-    margin-right: 6%;
-    margin-bottom: 4%;
-    border: 1px solid black;
-    border-collapse: collapse;
-    width: 88%;
-}
-
-th{
-    border: 1px solid #86C232;
-    background: #474B4F;
-  	color: white;
-    padding: 5px;
-    text-align: center;
-}
-
-td{
-    border: 1px solid #86C232;
-    background: #6B6E70;
-    padding: 5px;
-    text-align: left;
-    color: white;
-  }

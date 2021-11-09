@@ -1,119 +1,135 @@
 import { React, useEffect, useState } from 'react'
 import Navbar from '../../../componentes/Nav/Navbar'
 import Rodape from '../../../componentes/Rodape'
-import StyledButton from '../../../componentes/StyledButton'
 import api from '../../../servicos/api'
 import './Denuncias.css'
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
-
-require("es6-promise").polyfill()
-require("isomorphic-fetch")
+import Table from 'react-bootstrap/Table'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const ConsultarDenuncia = () => {
 
     const [denuncias, setDenuncias] = useState([])
+
     useEffect(() => {
         api.get('denuncias/retornaTodos').then(resposta => {
             setDenuncias(resposta.data)
         })
     }, [])
 
-    const [q, setQ] = useState("")
-
-
     const MySwal = withReactContent(Swal)
-
-    // const [codigo, setCodigo] = useState()
-
-    // const [resultado, setResultado] = useState({
-    //     nome: "Anônimo",
-    //     email: "Anônimo",
-    //     local: "",
-    //     data: "",
-    //     hora: "",
-    //     descricao: "",
-    //     status: "",
-    //     codigo: "",
-    //     atualizacoes: []
-    // })
-
-    // function submit(e) {
-    //     e.preventDefault();
-
-    //     api.get('denuncias/obterPorCodigo/' + codigo).then((response) => {
-
-    //         if (response.data.id !== undefined) {
-
-    //             console.log(response.data)
-    //             setResultado({
-    //                 nome: response.data.nome,
-    //                 email: response.data.email,
-    //                 local: response.data.local,
-    //                 data: response.data.data,
-    //                 hora: response.data.hora.substr(0, 5),
-    //                 descricao: response.data.descricao,
-    //                 status: response.data.status_denuncia.status,
-    //                 codigo: response.data.codigo,
-    //                 atualizacoes: response.data.atualizacoes
-    //             })
-    //         }
-    //         else {
-    //             MySwal.fire({
-    //                 title: <p>Código não encontrado</p>,
-    //                 footer: 'Ciências da Computação - UNIP 2021',
-    //                 html: <p>Tente novamente.</p>
-    //             })
-    //         }
-    //     })
-    // }
 
     return (
         <div>
             <Navbar />
             <div className="main">
                 <div className="containerDenuncias">
+                    <div className="divConteudoFino">
+                        <h1 className="titulo">Gerenciamento de denúncias</h1><br />
+                        {
+                            denuncias.length > 0 ?
+                                <>
+                                    <div className="divListaDenuncias">
+                                        <div className="divTable">
+                                            <Table striped bordered hover variant="dark">
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Id</th>
+                                                        <th>Descrição</th>
+                                                        <th>Data de abertura</th>
+                                                        <th>Status</th>
+                                                        <th>Editar</th>
+                                                        <th>Excluir</th>
+                                                    </tr>
+                                                    {
+                                                        denuncias.sort((a, b) => a.id < b.id ? 1 : -1).map(denuncia => {
+                                                            return (
+                                                                <tr key={denuncia.id}>
+                                                                    <td>{denuncia.id}</td>
+                                                                    <td>{denuncia.descricao}</td>
+                                                                    <td>
+                                                                        <Moment format="DD/MM/YYYY">
+                                                                            {denuncia.data}
+                                                                        </Moment>
+                                                                    </td>
+                                                                    <td>{denuncia.status_denuncia.status}</td>
+                                                                    <td>
+                                                                        <Link to={{
+                                                                            pathname: `/Gerenciamento/Denuncias/EditarDenuncia/${denuncia.id}`
+                                                                        }}>
+                                                                            <button className="botaoAzul">Editar</button>
+                                                                        </Link>
+                                                                    </td>
+                                                                    <td>
+                                                                        {/* <button className="botaoVermelho" onClick={excluirDenuncia(denuncia.id)} */}
+                                                                        <button className="botaoVermelho" onClick={() => {
 
-                    <h1 className="titulo">Gerenciamento de denúncias</h1><br />
-                    <>
-                        <div className="divListaDenuncias">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Descrição</th>
-                                        <th>Data de abertura</th>
-                                        <th>Status</th>
-                                        <th>Visualizar</th>
-                                    </tr>
-                                    {
-                                        denuncias.sort((a, b) => a.id < b.id ? 1 : -1).map(denuncia => {
-                                            return (
-                                                <tr key={denuncia.id}>
-                                                    <td>{denuncia.id}</td>
-                                                    <td>{denuncia.descricao}</td>
-                                                    <td>
-                                                        <Moment format="DD/MM/YYYY">
-                                                            {denuncia.data}
-                                                        </Moment>
-                                                    </td>
-                                                    <td>{denuncia.status_denuncia.status}</td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="divBotaoLeft">
-                            <Link to='/Gerenciamento'>
-                                <StyledButton text="Voltar" />
-                            </Link>
-                        </div>
-                    </>
+                                                                            MySwal.fire({
+                                                                                title: <p>Atenção!</p>,
+                                                                                showCancelButton: true,
+                                                                                confirmButtonColor: '#86C232',
+                                                                                cancelButtonColor: '#f70000',
+                                                                                confirmButtonText: 'Sim',
+                                                                                cancelButtonText: 'Cancelar',
+                                                                                footer: 'Ciências da Computação - UNIP 2021',
+                                                                                html: <p>Deseja mesmo excluir essa denúncia?.</p>,
+                                                                                icon: 'warning'
+                                                                            }).then((result) => {
+                                                                                if (result.isConfirmed) {
+                                                                                    api.delete(`denuncias/deleta/${denuncia.id}`).then((response) => {
+                                                                                        MySwal.fire({
+                                                                                            title: <p>Sucesso!</p>,
+                                                                                            confirmButtonColor: '#86C232',
+                                                                                            footer: 'Ciências da Computação - UNIP 2021',
+                                                                                            html: <p>Denúncia excluída com sucesso.</p>,
+                                                                                            icon: 'success'
+                                                                                        }).then(() => {
+                                                                                            window.location.reload()
+                                                                                        })
+                                                                                    })
+                                                                                        .catch(() => {
+                                                                                            MySwal.fire({
+                                                                                                title: <p>Erro!</p>,
+                                                                                                confirmButtonColor: '#86C232',
+                                                                                                footer: 'Ciências da Computação - UNIP 2021',
+                                                                                                html: <p>Houve um erro ao excluir a denúncia, favor entrar em contato com o
+                                                                                                    administrador do sistema.</p>,
+                                                                                                icon: 'error'
+                                                                                            })
+                                                                                        })
+                                                                                }
+                                                                                else {
+                                                                                    return
+                                                                                }
+                                                                            })
+                                                                        }}
+                                                                        >Excluir</button>
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        })
+                                                    }
+                                                </tbody>
+                                            </Table>
+                                        </div>
+                                    </div>
+                                    <div className="divBotaoLeft">
+                                        <Link to='/Gerenciamento'>
+                                            <button className="botaoVerde">Voltar</button>
+                                        </Link>
+                                    </div><br />
+                                </>
+                                :
+                                <>
+                                    <h3 className="subtitulo">Ainda não há nenhuma denúncia registrada.</h3>
+                                </>
+                        }
+
+                    </div>
                 </div>
+
             </div>
             <Rodape />
         </div>

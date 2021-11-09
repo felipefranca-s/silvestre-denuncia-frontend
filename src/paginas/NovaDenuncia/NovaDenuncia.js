@@ -1,7 +1,6 @@
 import { React, useState } from 'react'
 import Navbar from '../../componentes/Nav/Navbar';
 import Rodape from '../../componentes/Rodape';
-import StyledButton from '../../componentes/StyledButton'
 import InputHora from '../../componentes/InputHora';
 import api from '../../servicos/api';
 import './NovaDenuncia.css'
@@ -19,6 +18,16 @@ const NovaDenuncia = () => {
     }
 
     const [dataInicio, setDataInicio] = useState(new Date());
+
+    const[image, setImage] = useState()
+
+    const uploadImage = async e => {
+        
+        e.preventDefault()
+
+        console.log("Upload image")
+        console.log(image)
+    }
 
     const [json, setJson] = useState({
         nome: "",
@@ -49,16 +58,15 @@ const NovaDenuncia = () => {
 
         api.post('denuncias/novo', json).then((response) => {
 
-            // O post não está retornando o código (gerado por trigger)
-            // por enquanto é feito um get para obtê-lo
-
             api.get('denuncias/' + response.data.id).then((response2) => {
                 
                 MySwal.fire({
                     title: <p>Denúncia efetuada!</p>,
                     footer: 'Ciências da Computação - UNIP 2021',
+                    confirmButtonColor: '#86C232',
                     html: <><p>Guarde o código da denúncia para consultá-la posteriormente:</p>
-                    <br /><b>{response2.data.codigo}</b></>
+                    <br /><b>{response2.data.codigo}</b></>,
+                    icon: 'success'
                   })
             });
         });
@@ -113,8 +121,18 @@ const NovaDenuncia = () => {
                                 <textarea type="text" name="descricao" id="descricao" required
                                     onChange={(e) => handle(e)} value={json.descricao} />
                             </div>
+                            
                             <div className="divBotao">
-                                <StyledButton text="Enviar"/>
+                                <button className="botaoVerde">Enviar</button>
+                            </div>
+                        </form>
+                        <form onSubmit={uploadImage}>
+                        <div className="campo">
+                                <label htmlFor="imagem">Evidência (imagem)</label><br /><br />
+                                <input type="file" name="imagem" onChange={e => setImage(e.target.files[0]) }/>
+                            </div>
+                            <div className="divBotao">
+                                <button className="botaoVerde">Enviar</button>
                             </div>
                         </form>
                     </div>
