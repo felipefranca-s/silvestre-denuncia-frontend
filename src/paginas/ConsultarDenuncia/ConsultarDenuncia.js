@@ -129,6 +129,19 @@ const ConsultarDenuncia = () => {
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <h1 className="titulo">Evidência</h1><br />
+                                            <div className="divExibirEvidencia">
+                                                {
+                                                    resultado.evidencias.map(evidencia =>
+                                                        <>
+                                                            <div>
+                                                                <img src={`data:image/png;base64,${evidencia.arquivo}`} />
+                                                            </div>
+                                                        </>
+                                                    )
+                                                }
+
+                                            </div>
                                     {
                                         <>
                                             {
@@ -167,19 +180,7 @@ const ConsultarDenuncia = () => {
                                                         <h3 className="subtitulo">Ainda não existem atualizações para essa denúncia.</h3><br />
                                                     </>
                                             }
-                                            <h1 className="titulo">Evidência</h1><br />
-                                            <div className="divExibirEvidencia">
-                                                {
-                                                    resultado.evidencias.map(evidencia =>
-                                                        <>
-                                                            <div>
-                                                                <img src={`data:image/png;base64,${evidencia.arquivo}`} />
-                                                            </div>
-                                                        </>
-                                                    )
-                                                }
-
-                                            </div>
+                                            
                                         </>
                                     }
                                     <div className="divBotaoCenter">

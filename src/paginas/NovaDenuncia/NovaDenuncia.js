@@ -19,7 +19,7 @@ const NovaDenuncia = () => {
 
     const [dataInicio, setDataInicio] = useState(new Date());
 
-    const[image, setImage] = useState()
+    const [image, setImage] = useState()
 
     const converterBase64 = (arquivo) => {
 
@@ -28,34 +28,13 @@ const NovaDenuncia = () => {
             const fileReader = new FileReader()
             fileReader.readAsDataURL(arquivo)
 
-            fileReader.onload =() => {
+            fileReader.onload = () => {
                 resolve(fileReader.result)
             }
 
             fileReader.onerror = (error) => {
                 reject(error)
             }
-        })
-    }
-
-    const uploadImage = async e => {
-        
-        e.preventDefault()
-
-        console.log("Upload image")
-        console.log(image)
-
-        const base64 = await converterBase64(image)
-        console.log(base64)
-
-        const strImage = base64.replace(/^data:image\/[a-z]+;base64,/, "");
-
-        console.log(strImage)
-
-        api.post('/evidencias/novo', {
-            denuncia: {id: 88},
-            nome_arquivo: "testeee",
-            arquivo: strImage
         })
     }
 
@@ -80,24 +59,48 @@ const NovaDenuncia = () => {
 
     const MySwal = withReactContent(Swal)
 
-    function submit(e) {
+    async function submit(e) {
+
         e.preventDefault();
+
+        if(image === "" || image === undefined){
+            
+            MySwal.fire({
+                title: <p>Atenção</p>,
+                footer: 'Ciências da Computação - UNIP 2021',
+                confirmButtonColor: '#86C232',
+                html: <p>Favor preencher todos os campos obrigatórios</p>,
+                icon: 'warning'
+            })
+            return
+        }
+
+        const base64 = await converterBase64(image)
+
+        const stringImagem = base64.replace(/^data:image\/[a-z]+;base64,/, "");
+
 
         json.data = dataInicio
         json.hora = hora + ':00'
 
         api.post('denuncias/novo', json).then((response) => {
 
+            api.post('/evidencias/novo', {
+                denuncia: { id: response.data.id },
+                nome_arquivo: "testeee",
+                arquivo: stringImagem
+            })
+            
             api.get('denuncias/' + response.data.id).then((response2) => {
-                
+
                 MySwal.fire({
                     title: <p>Denúncia efetuada!</p>,
                     footer: 'Ciências da Computação - UNIP 2021',
                     confirmButtonColor: '#86C232',
                     html: <><p>Guarde o código da denúncia para consultá-la posteriormente:</p>
-                    <br /><b>{response2.data.codigo}</b></>,
+                        <br /><b>{response2.data.codigo}</b></>,
                     icon: 'success'
-                  })
+                })
             });
         });
     }
@@ -151,21 +154,17 @@ const NovaDenuncia = () => {
                                 <textarea type="text" name="descricao" id="descricao" required
                                     onChange={(e) => handle(e)} value={json.descricao} />
                             </div>
-                            
-                            <div className="divBotao">
-                                <button className="botaoVerde">Enviar</button>
-                            </div>
-                        </form>
-                        <form onSubmit={uploadImage}>
-                        <div className="campo">
-                                <label htmlFor="imagem">Evidência (imagem)</label><br /><br />
-                                <input type="file" name="imagem" onChange={e => setImage(e.target.files[0]) }/>
+                            <h3 className="subtitulo">Evidência * (imagem)</h3><br />
+                            <div className="campo">
+                                <input type="file" name="imagem" onChange={e => setImage(e.target.files[0])} />
                             </div>
                             <div className="divBotao">
-                                <button className="botaoVerde">Enviar</button><br/>
-                                <br/>
+                                <button className="botaoVerde">Enviar</button><br />
                             </div>
                         </form>
+                        {/* <form onSubmit={uploadImage}>
+
+                        </form> */}
                     </div>
                 </div>
             </div>
