@@ -47,14 +47,15 @@ const EditarDenuncia = () => {
     const [hora, setHora] = useState();
     const handleInputHora = ({ target: { value } }) => setHora(value)
 
-    const [statusDenuncia, setStatusDenuncia] = useState({ 
-        id: 1, 
-        status: "" 
+    const [statusDenuncia, setStatusDenuncia] = useState({
+        id: 1,
+        status: ""
     });
 
-    const[novaAtualizacao, setNovaAtualizacao] = useState()
+    const [novaAtualizacao, setNovaAtualizacao] = useState()
 
-    function handleStatus (e){
+    function handleStatus(e) {
+        // eslint-disable-next-line
         const novoStatus = todosStatusDenuncias.find(s => s.id == e.target.value)
         setStatusDenuncia(novoStatus)
     }
@@ -80,9 +81,9 @@ const EditarDenuncia = () => {
 
         e.preventDefault();
 
-        if(novaAtualizacao !== "")
+        if (novaAtualizacao !== "")
 
-        json.data = dataInicio
+            json.data = dataInicio
         json.status_denuncia.id = statusDenuncia.id
 
         if (hora.length === 5)
@@ -96,17 +97,28 @@ const EditarDenuncia = () => {
             confirmButtonText: 'Sim',
             cancelButtonText: 'Cancelar',
             footer: 'Ciências da Computação - UNIP 2021',
-            html: <p>Deseja mesmo atualizar essa denúncia?.</p>,
+            html: <p>Deseja mesmo atualizar essa denúncia?</p>,
             icon: 'warning'
         }).then((result) => {
             if (result.isConfirmed) {
-                if(novaAtualizacao !== "")
+                if (novaAtualizacao !== "" && novaAtualizacao !== undefined){
                     api.post('atualizacoes/novo', {
-                        atualizacao: "ficamos jogando truco",
-                        data: new Date(),
-                        hora: "23:16:00",
-                        denuncia: { id: 82}
+                        atualizacao: novaAtualizacao,
+                        data: moment(),
+                        hora: moment().format('hh:mm:ss'),
+                        denuncia: { id: json.id }
+                    }).catch(() => {
+                        MySwal.fire({
+                            title: <p>Erro!</p>,
+                            confirmButtonColor: '#86C232',
+                            footer: 'Ciências da Computação - UNIP 2021',
+                            html: <p>Houve um erro ao adicionar a atualização, favor entrar em contato com o
+                                administrador do sistema.</p>,
+                            icon: 'error'
+                        })
                     })
+                }
+                    
                 api.put(`denuncias/${json.id}`, json).then((response) => {
                     MySwal.fire({
                         title: <p>Sucesso!</p>,
@@ -118,15 +130,15 @@ const EditarDenuncia = () => {
                         window.location.reload()
                     })
                 }).catch(() => {
-                        MySwal.fire({
-                            title: <p>Erro!</p>,
-                            confirmButtonColor: '#86C232',
-                            footer: 'Ciências da Computação - UNIP 2021',
-                            html: <p>Houve um erro ao atualizar a denúncia, favor entrar em contato com o
-                                administrador do sistema.</p>,
-                            icon: 'error'
-                        })
+                    MySwal.fire({
+                        title: <p>Erro!</p>,
+                        confirmButtonColor: '#86C232',
+                        footer: 'Ciências da Computação - UNIP 2021',
+                        html: <p>Houve um erro ao atualizar a denúncia, favor entrar em contato com o
+                            administrador do sistema.</p>,
+                        icon: 'error'
                     })
+                })
             }
             else {
                 return
@@ -204,12 +216,13 @@ const EditarDenuncia = () => {
                             {
                                 json.atualizacoes.length > 0 ?
                                     <>
-                                        <table>
+                                        <table className="divTable">
                                             <tbody>
                                                 <tr>
                                                     <th>Data</th>
                                                     <th>Hora</th>
                                                     <th>Detalhes</th>
+                                                    <th>Excluir</th>
                                                 </tr>
                                             </tbody>
                                             {
@@ -223,6 +236,53 @@ const EditarDenuncia = () => {
                                                             </td>
                                                             <td>{atualizacao.hora.substr(0, 5)}</td>
                                                             <td>{atualizacao.atualizacao}</td>
+                                                            <td>
+                                                                <button className="botaoVermelho" onClick={(e) => {
+                                                                    
+                                                                    e.preventDefault(
+
+                                                                    )
+                                                                    MySwal.fire({
+                                                                        title: <p>Atenção!</p>,
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor: '#86C232',
+                                                                        cancelButtonColor: '#f70000',
+                                                                        confirmButtonText: 'Sim',
+                                                                        cancelButtonText: 'Cancelar',
+                                                                        footer: 'Ciências da Computação - UNIP 2021',
+                                                                        html: <p>Deseja mesmo excluir essa atualização?</p>,
+                                                                        icon: 'warning'
+                                                                    }).then((result) => {
+                                                                        if (result.isConfirmed) {
+                                                                            api.delete(`atualizacoes/deleta/${atualizacao.id}`).then((response) => {
+                                                                                MySwal.fire({
+                                                                                    title: <p>Sucesso!</p>,
+                                                                                    confirmButtonColor: '#86C232',
+                                                                                    footer: 'Ciências da Computação - UNIP 2021',
+                                                                                    html: <p>Atualização excluída com sucesso.</p>,
+                                                                                    icon: 'success'
+                                                                                }).then(() => {
+                                                                                    window.location.reload()
+                                                                                })
+                                                                            })
+                                                                                .catch(() => {
+                                                                                    MySwal.fire({
+                                                                                        title: <p>Erro!</p>,
+                                                                                        confirmButtonColor: '#86C232',
+                                                                                        footer: 'Ciências da Computação - UNIP 2021',
+                                                                                        html: <p>Houve um erro ao excluir a atualização, favor entrar em contato com o
+                                                                                            administrador do sistema.</p>,
+                                                                                        icon: 'error'
+                                                                                    })
+                                                                                })
+                                                                        }
+                                                                        else {
+                                                                            return
+                                                                        }
+                                                                    })
+                                                                }}
+                                                                >Excluir</button>
+                                                            </td>
                                                         </tr>
                                                     </>
                                                 )

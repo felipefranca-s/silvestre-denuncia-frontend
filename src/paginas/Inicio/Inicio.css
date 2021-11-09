@@ -8,8 +8,7 @@
     rgba(56, 118, 242, 0.1),
     rgba(56, 118, 242, 0.8)),
     url(../../assets/img/araras.jpg);
-    background-repeat: no-repeat;
-    justify-content: center;
+    background-repeat: repeat;
     align-items: center;
     text-align: center;
     justify-content: center;
@@ -19,13 +18,23 @@
 }
 
 .slogan{
-    font-size: 60px;
+    
     color: ghostwhite;
     font-weight: 600;
 }
 
 @media (max-width: 768px) {
     .slogan{
-    font-size: 48px;
+    font-size: 40px;
+    }
+
+    .conteudoInicio{
+        height: calc(100vh - 57px - 67px);
+    }
+}
+
+@media(min-width: 768PX){
+    .slogan{
+        font-size: 60px;
     }
 }

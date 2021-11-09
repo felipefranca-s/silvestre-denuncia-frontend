@@ -62,10 +62,6 @@ button {
     font-size: 20px;
 }
 
-.divBotaoLeft{
-    margin-left: 6%;
-}
-
 @media (max-width: 1200px) {
     .divConsulta .divResultado {
         width: 80%;

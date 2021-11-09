@@ -21,12 +21,42 @@ const NovaDenuncia = () => {
 
     const[image, setImage] = useState()
 
+    const converterBase64 = (arquivo) => {
+
+        return new Promise((resolve, reject) => {
+
+            const fileReader = new FileReader()
+            fileReader.readAsDataURL(arquivo)
+
+            fileReader.onload =() => {
+                resolve(fileReader.result)
+            }
+
+            fileReader.onerror = (error) => {
+                reject(error)
+            }
+        })
+    }
+
     const uploadImage = async e => {
         
         e.preventDefault()
 
         console.log("Upload image")
         console.log(image)
+
+        const base64 = await converterBase64(image)
+        console.log(base64)
+
+        const strImage = base64.replace(/^data:image\/[a-z]+;base64,/, "");
+
+        console.log(strImage)
+
+        api.post('/evidencias/novo', {
+            denuncia: {id: 88},
+            nome_arquivo: "testeee",
+            arquivo: strImage
+        })
     }
 
     const [json, setJson] = useState({
@@ -132,7 +162,8 @@ const NovaDenuncia = () => {
                                 <input type="file" name="imagem" onChange={e => setImage(e.target.files[0]) }/>
                             </div>
                             <div className="divBotao">
-                                <button className="botaoVerde">Enviar</button>
+                                <button className="botaoVerde">Enviar</button><br/>
+                                <br/>
                             </div>
                         </form>
                     </div>

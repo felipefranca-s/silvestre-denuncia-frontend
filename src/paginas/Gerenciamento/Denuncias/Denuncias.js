@@ -2,7 +2,6 @@ import { React, useEffect, useState } from 'react'
 import Navbar from '../../../componentes/Nav/Navbar'
 import Rodape from '../../../componentes/Rodape'
 import api from '../../../servicos/api'
-import './Denuncias.css'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 import Table from 'react-bootstrap/Table'
@@ -25,15 +24,15 @@ const ConsultarDenuncia = () => {
         <div>
             <Navbar />
             <div className="main">
-                <div className="containerDenuncias">
-                    <div className="divConteudoFino">
+                <div className="containerConteudo">
+                    <div className="divConteudo">
                         <h1 className="titulo">Gerenciamento de denúncias</h1><br />
                         {
                             denuncias.length > 0 ?
                                 <>
                                     <div className="divListaDenuncias">
                                         <div className="divTable">
-                                            <Table striped bordered hover variant="dark">
+                                            <Table>
                                                 <tbody>
                                                     <tr>
                                                         <th>Id</th>
@@ -74,7 +73,7 @@ const ConsultarDenuncia = () => {
                                                                                 confirmButtonText: 'Sim',
                                                                                 cancelButtonText: 'Cancelar',
                                                                                 footer: 'Ciências da Computação - UNIP 2021',
-                                                                                html: <p>Deseja mesmo excluir essa denúncia?.</p>,
+                                                                                html: <p>Deseja mesmo excluir essa denúncia?</p>,
                                                                                 icon: 'warning'
                                                                             }).then((result) => {
                                                                                 if (result.isConfirmed) {

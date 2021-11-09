@@ -24,7 +24,8 @@ const ConsultarDenuncia = () => {
         descricao: "",
         status: "",
         codigo: "",
-        atualizacoes: []
+        atualizacoes: [],
+        evidencias: []
     })
 
     function recarregarPagina() {
@@ -35,7 +36,6 @@ const ConsultarDenuncia = () => {
         e.preventDefault();
 
         api.get('denuncias/obterPorCodigo/' + codigo).then((response) => {
-
             if (response.data.id !== undefined) {
                 setExibirDivConsulta(false)
 
@@ -49,7 +49,8 @@ const ConsultarDenuncia = () => {
                     descricao: response.data.descricao,
                     status: response.data.status_denuncia.status,
                     codigo: response.data.codigo,
-                    atualizacoes: response.data.atualizacoes
+                    atualizacoes: response.data.atualizacoes,
+                    evidencias: response.data.evidencias
                 })
             }
             else {
@@ -85,89 +86,105 @@ const ConsultarDenuncia = () => {
                                 </form>
                             </div>
                             :
-                            <div className="divResultado">
-                                <h1 className="titulo">Informações da denúncia</h1><br />
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <th>Nome do autor</th>
-                                            <td>{resultado.nome === "" ? <p>Anônimo</p> : resultado.nome}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>E-mail do autor</th>
-                                            <td>{resultado.email === "" ? <p>Anônimo</p> : resultado.email}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Local</th>
-                                            <td>{resultado.local}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Data</th>
-                                            <td>
-                                                <Moment format="DD/MM/YYYY">
-                                                    {resultado.data}
-                                                </Moment>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>Hora</th>
-                                            <td>{resultado.hora}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Descrição</th>
-                                            <td>{resultado.descricao}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Código</th>
-                                            <td>{resultado.codigo}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Status</th>
-                                            <td>{resultado.status}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                {
-                                    <>
-                                        {
-                                            resultado.atualizacoes.length > 0 ?
-                                                <>
-                                                    <h1 className="titulo">Atualizações da denúncia</h1><br />
-                                                    <table>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>Data</th>
-                                                                <th>Hora</th>
-                                                                <th>Detalhes</th>
+                            <div className="containerConteudo">
+                                <div className="divConteudo">
+                                    <h1 className="titulo">Informações da denúncia</h1><br />
+                                    <table className="divTable">
+                                        <tbody>
+                                            <tr>
+                                                <th>Nome do autor</th>
+                                                <td>{resultado.nome === "" ? <p>Anônimo</p> : resultado.nome}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>E-mail do autor</th>
+                                                <td>{resultado.email === "" ? <p>Anônimo</p> : resultado.email}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Local</th>
+                                                <td>{resultado.local}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Data</th>
+                                                <td>
+                                                    <Moment format="DD/MM/YYYY">
+                                                        {resultado.data}
+                                                    </Moment>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Hora</th>
+                                                <td>{resultado.hora}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Descrição</th>
+                                                <td>{resultado.descricao}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Código</th>
+                                                <td>{resultado.codigo}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Status</th>
+                                                <td>{resultado.status}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    {
+                                        <>
+                                            {
+                                                resultado.atualizacoes.length > 0 ?
+                                                    <>
+                                                        <h1 className="titulo">Atualizações da denúncia</h1><br />
+                                                        <table>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th>Data</th>
+                                                                    <th>Hora</th>
+                                                                    <th>Detalhes</th>
 
-                                                            </tr>
-                                                        </tbody>
-                                                        {
-                                                            resultado.atualizacoes.map(atualizacao =>
-                                                                <>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <Moment format="DD/MM/YYYY">
-                                                                                {atualizacao.data}
-                                                                            </Moment>
-                                                                        </td>
-                                                                        <td>{atualizacao.hora.substr(0, 5)}</td>
-                                                                        <td>{atualizacao.atualizacao}</td>
-                                                                    </tr>
-                                                                </>
-                                                            )
-                                                        }
-                                                    </table>
-                                                </>
-                                                :
-                                                <>
-                                                    <h3 className="subtitulo">Ainda não existem atualizações para essa denúncia.</h3><br />
-                                                </>
-                                        }
-                                    </>
-                                }
-                                <div className="divBotaoLeft">
-                                    <button className="botaoVerde" onClick={recarregarPagina}>Voltar </button>
+                                                                </tr>
+                                                            </tbody>
+                                                            {
+                                                                resultado.atualizacoes.map(atualizacao =>
+                                                                    <>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <Moment format="DD/MM/YYYY">
+                                                                                    {atualizacao.data}
+                                                                                </Moment>
+                                                                            </td>
+                                                                            <td>{atualizacao.hora.substr(0, 5)}</td>
+                                                                            <td>{atualizacao.atualizacao}</td>
+                                                                        </tr>
+                                                                    </>
+                                                                )
+                                                            }
+                                                        </table>
+
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <h3 className="subtitulo">Ainda não existem atualizações para essa denúncia.</h3><br />
+                                                    </>
+                                            }
+                                            <h1 className="titulo">Evidência</h1><br />
+                                            <div className="divExibirEvidencia">
+                                                {
+                                                    resultado.evidencias.map(evidencia =>
+                                                        <>
+                                                            <div>
+                                                                <img src={`data:image/png;base64,${evidencia.arquivo}`} />
+                                                            </div>
+                                                        </>
+                                                    )
+                                                }
+
+                                            </div>
+                                        </>
+                                    }
+                                    <div className="divBotaoCenter">
+                                        <button className="botaoVerde" onClick={recarregarPagina}>Voltar </button>
+                                    </div>
                                 </div>
                             </div>
                     }
