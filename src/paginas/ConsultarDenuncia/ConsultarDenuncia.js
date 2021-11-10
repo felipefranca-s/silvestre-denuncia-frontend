@@ -15,6 +15,8 @@ const ConsultarDenuncia = () => {
 
     const [exibirDivConsulta, setExibirDivConsulta] = useState(true)
 
+    const [exibirImagem, setExibirImagem] = useState(false)
+
     const [resultado, setResultado] = useState({
         nome: "Anônimo",
         email: "Anônimo",
@@ -24,9 +26,10 @@ const ConsultarDenuncia = () => {
         descricao: "",
         status: "",
         codigo: "",
-        atualizacoes: [],
-        evidencias: []
+        atualizacoes: []
     })
+
+    const [imagem, setImagem] = useState()
 
     function recarregarPagina() {
         window.location.reload(false);
@@ -39,7 +42,6 @@ const ConsultarDenuncia = () => {
             if (response.data.id !== undefined) {
                 setExibirDivConsulta(false)
 
-                console.log(response.data)
                 setResultado({
                     nome: response.data.nome,
                     email: response.data.email,
@@ -52,6 +54,13 @@ const ConsultarDenuncia = () => {
                     atualizacoes: response.data.atualizacoes,
                     evidencias: response.data.evidencias
                 })
+
+                api.get(`/imagens/obterPorDenunciaId/${response.data.id}`, { responseType: 'blob' })
+                    .then((response1) => {
+                        setImagem(response1.data)
+                        setExibirImagem(true)
+                    })
+
             }
             else {
                 MySwal.fire({
@@ -129,19 +138,19 @@ const ConsultarDenuncia = () => {
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <h1 className="titulo">Evidência</h1><br />
-                                            <div className="divExibirEvidencia">
-                                                {
-                                                    resultado.evidencias.map(evidencia =>
-                                                        <>
-                                                            <div>
-                                                                <img src={`data:image/png;base64,${evidencia.arquivo}`} />
-                                                            </div>
-                                                        </>
-                                                    )
-                                                }
 
-                                            </div>
+                                    {
+                                        exibirImagem ?
+                                            <>
+                                                <h1 className="titulo">Evidência</h1><br />
+                                                <div className="divExibirEvidencia">
+                                                    <img src={URL.createObjectURL(imagem)} alt="imagemEvidencia" />
+                                                </div><br />
+                                            </>
+                                            : null
+
+                                    }
+
                                     {
                                         <>
                                             {
@@ -180,7 +189,7 @@ const ConsultarDenuncia = () => {
                                                         <h3 className="subtitulo">Ainda não existem atualizações para essa denúncia.</h3><br />
                                                     </>
                                             }
-                                            
+
                                         </>
                                     }
                                     <div className="divBotaoCenter">

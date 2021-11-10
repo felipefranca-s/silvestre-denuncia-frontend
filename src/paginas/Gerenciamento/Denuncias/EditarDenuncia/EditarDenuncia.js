@@ -21,6 +21,10 @@ const EditarDenuncia = () => {
 
     const [todosStatusDenuncias, setTodosStatusDenuncias] = useState([])
 
+    const [imagem, setImagem] = useState()
+
+    const [exibirImagem, setExibirImagem] = useState(false)
+
     const [json, setJson] = useState({
         id: "",
         nome: "Anônimo",
@@ -67,6 +71,12 @@ const EditarDenuncia = () => {
             resposta.data.data = moment(resposta.data.data).format('dd/MM/yyyy');
             setStatusDenuncia(resposta.data.status_denuncia)
             setJson(resposta.data)
+
+            api.get(`/imagens/obterPorDenunciaId/${resposta.data.id}`, { responseType: 'blob' })
+                .then((resposta1) => {
+                    setImagem(resposta1.data)
+                    setExibirImagem(true)
+                })
         })
 
     }, [denunciaId])
@@ -101,7 +111,7 @@ const EditarDenuncia = () => {
             icon: 'warning'
         }).then((result) => {
             if (result.isConfirmed) {
-                if (novaAtualizacao !== "" && novaAtualizacao !== undefined){
+                if (novaAtualizacao !== "" && novaAtualizacao !== undefined) {
                     api.post('atualizacoes/novo', {
                         atualizacao: novaAtualizacao,
                         data: moment(),
@@ -118,7 +128,7 @@ const EditarDenuncia = () => {
                         })
                     })
                 }
-                    
+
                 api.put(`denuncias/${json.id}`, json).then((response) => {
                     MySwal.fire({
                         title: <p>Sucesso!</p>,
@@ -206,7 +216,17 @@ const EditarDenuncia = () => {
                                     }
                                 </select>
                             </div>
+                            {
+                                exibirImagem ?
+                                    <>
+                                        <h1 className="titulo">Evidência</h1><br />
+                                        <div className="divExibirEvidencia">
+                                            <img src={URL.createObjectURL(imagem)} alt="imagemEvidencia" />
+                                        </div><br />
+                                    </>
+                                    : null
 
+                            }
                             <h1 className="titulo">Atualizações da denúncia</h1><br />
                             <div className="campo">
                                 <label htmlFor="novaAtualizacao">Nova atualização</label><br />
@@ -238,7 +258,7 @@ const EditarDenuncia = () => {
                                                             <td>{atualizacao.atualizacao}</td>
                                                             <td>
                                                                 <button className="botaoVermelho" onClick={(e) => {
-                                                                    
+
                                                                     e.preventDefault(
 
                                                                     )

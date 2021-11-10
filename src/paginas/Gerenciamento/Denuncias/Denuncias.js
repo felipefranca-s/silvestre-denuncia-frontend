@@ -62,7 +62,6 @@ const ConsultarDenuncia = () => {
                                                                         </Link>
                                                                     </td>
                                                                     <td>
-                                                                        {/* <button className="botaoVermelho" onClick={excluirDenuncia(denuncia.id)} */}
                                                                         <button className="botaoVermelho" onClick={() => {
 
                                                                             MySwal.fire({

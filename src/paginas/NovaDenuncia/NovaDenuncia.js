@@ -8,6 +8,7 @@ import ReactDatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { useHistory } from 'react-router';
 
 const NovaDenuncia = () => {
 
@@ -20,23 +21,6 @@ const NovaDenuncia = () => {
     const [dataInicio, setDataInicio] = useState(new Date());
 
     const [image, setImage] = useState()
-
-    const converterBase64 = (arquivo) => {
-
-        return new Promise((resolve, reject) => {
-
-            const fileReader = new FileReader()
-            fileReader.readAsDataURL(arquivo)
-
-            fileReader.onload = () => {
-                resolve(fileReader.result)
-            }
-
-            fileReader.onerror = (error) => {
-                reject(error)
-            }
-        })
-    }
 
     const [json, setJson] = useState({
         nome: "",
@@ -59,12 +43,15 @@ const NovaDenuncia = () => {
 
     const MySwal = withReactContent(Swal)
 
+    const history = useHistory();
+
     async function submit(e) {
 
         e.preventDefault();
+        console.log(image)
 
-        if(image === "" || image === undefined){
-            
+        if (image === "" || image === undefined) {
+
             MySwal.fire({
                 title: <p>Atenção</p>,
                 footer: 'Ciências da Computação - UNIP 2021',
@@ -75,22 +62,19 @@ const NovaDenuncia = () => {
             return
         }
 
-        const base64 = await converterBase64(image)
-
-        const stringImagem = base64.replace(/^data:image\/[a-z]+;base64,/, "");
-
-
         json.data = dataInicio
         json.hora = hora + ':00'
 
         api.post('denuncias/novo', json).then((response) => {
 
-            api.post('/evidencias/novo', {
-                denuncia: { id: response.data.id },
-                nome_arquivo: "testeee",
-                arquivo: stringImagem
+            var formData = new FormData();
+            formData.append("file", image)            
+            formData.append("imagem", `{"denuncia": {"id": ${response.data.id} }}`)
+
+            api.post('imagens/novo', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
             })
-            
+
             api.get('denuncias/' + response.data.id).then((response2) => {
 
                 MySwal.fire({
@@ -100,9 +84,13 @@ const NovaDenuncia = () => {
                     html: <><p>Guarde o código da denúncia para consultá-la posteriormente:</p>
                         <br /><b>{response2.data.codigo}</b></>,
                     icon: 'success'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        history.push('/ConsultarDenuncia')
+                    }
                 })
-            });
-        });
+            })
+        })
     }
 
     return (
@@ -162,9 +150,6 @@ const NovaDenuncia = () => {
                                 <button className="botaoVerde">Enviar</button><br />
                             </div>
                         </form>
-                        {/* <form onSubmit={uploadImage}>
-
-                        </form> */}
                     </div>
                 </div>
             </div>
