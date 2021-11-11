@@ -51,7 +51,8 @@ const UsuarioLogin = () => {
 
         if (token) {
             setToken(token);
-            return history.push('/Gerenciamento');
+            // return history.push('/Gerenciamento');
+            return history.push('/Gerenciamento/Denuncias');
         }
         else {
             MySwal.fire({

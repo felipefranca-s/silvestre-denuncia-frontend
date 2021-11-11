@@ -19,6 +19,10 @@ const RodapeStyled = styled.footer`
         font-size: 18px;
         color: #6B6E70;
     }
+
+    @media(max-width: 768px){
+        height: 53px;
+    }
 `;
 
 const Rodape = () => {

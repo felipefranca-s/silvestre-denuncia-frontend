@@ -55,7 +55,8 @@ const RightNav = ({ open }) => {
             {
                 token ?
                     <>
-                        <StyledLink to="/Gerenciamento">
+                        {/* <StyledLink to="/Gerenciamento"> */}
+                        <StyledLink to="/Gerenciamento/Denuncias">
                             <li>Gerenciamento</li>
                         </StyledLink>
                         <StyledLink to="#" onClick={deslogar}>

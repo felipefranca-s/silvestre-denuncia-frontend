@@ -21,11 +21,23 @@
     
     color: ghostwhite;
     font-weight: 600;
+    
 }
 
 @media (max-width: 768px) {
     .slogan{
-    font-size: 40px;
+        font-size: 40px;
+        color: #086B00; 
+        font-weight: bolder;       
+    }
+
+    .divSlogan{
+        background-color: #ffffffb8;
+        padding: 25px;        
+    }
+
+    .conteudoInicio{
+    background-image: url(../../assets/img/teste.jpg);
     }
 
     .conteudoInicio{

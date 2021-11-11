@@ -2,7 +2,6 @@ import { React, useState } from 'react'
 import Navbar from '../../componentes/Nav/Navbar'
 import Rodape from '../../componentes/Rodape'
 import api from '../../servicos/api'
-import './ConsultarDenuncia.css'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import Moment from 'react-moment'
@@ -78,66 +77,69 @@ const ConsultarDenuncia = () => {
         <div>
             <Navbar />
             <div className="main">
-                <div className="containerConsulta">
-                    {
-                        exibirDivConsulta ?
-                            <div className="divConsulta">
-                                <h1 className="titulo">Consultar denúncia</h1><br />
-                                <h3 className="subtitulo">Código da denúncia</h3><br />
-                                <form onSubmit={(e) => submit(e)}>
-                                    <div className="campo">
-                                        <input type="codigo" name="codigo" id="codigo"
-                                            onInput={(e) => setCodigo(e.target.value)} />
-                                    </div>
-                                    <div className="divBotaoLeft">
-                                        <button className="botaoVerde">Enviar</button>
-                                    </div>
-                                </form>
-                            </div>
-                            :
-                            <div className="containerConteudo">
-                                <div className="divConteudo">
+                <div className="containerConteudo">
+                    <div className="divConteudo">
+                        {
+                            exibirDivConsulta ?
+                                <div className="divConsulta">
+                                    <h1 className="titulo">Consultar denúncia</h1><br />
+                                    <h3 className="subtitulo">Código da denúncia</h3><br />
+                                    <form onSubmit={(e) => submit(e)}>
+                                        <div className="campo">
+                                            <input type="codigo" name="codigo" id="codigo"
+                                                onInput={(e) => setCodigo(e.target.value)} />
+                                        </div>
+                                        <div className="divBotaoLeft">
+                                            <button className="botaoVerde">Enviar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                :
+                                <div>
                                     <h1 className="titulo">Informações da denúncia</h1><br />
-                                    <table className="divTable">
-                                        <tbody>
-                                            <tr>
-                                                <th>Nome do autor</th>
-                                                <td>{resultado.nome === "" ? <p>Anônimo</p> : resultado.nome}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>E-mail do autor</th>
-                                                <td>{resultado.email === "" ? <p>Anônimo</p> : resultado.email}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Local</th>
-                                                <td>{resultado.local}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Data</th>
-                                                <td>
-                                                    <Moment format="DD/MM/YYYY">
-                                                        {resultado.data}
-                                                    </Moment>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>Hora</th>
-                                                <td>{resultado.hora}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Descrição</th>
-                                                <td>{resultado.descricao}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Código</th>
-                                                <td>{resultado.codigo}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Status</th>
-                                                <td>{resultado.status}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div className="divTable">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <th>Nome do autor</th>
+                                                    <td>{resultado.nome === "" ? <p>Anônimo</p> : resultado.nome}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>E-mail do autor</th>
+                                                    <td>{resultado.email === "" ? <p>Anônimo</p> : resultado.email}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Local</th>
+                                                    <td>{resultado.local}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Data</th>
+                                                    <td>
+                                                        <Moment format="DD/MM/YYYY">
+                                                            {resultado.data}
+                                                        </Moment>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Hora</th>
+                                                    <td>{resultado.hora}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Descrição</th>
+                                                    <td>{resultado.descricao}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Código</th>
+                                                    <td>{resultado.codigo}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Status</th>
+                                                    <td>{resultado.status}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
 
                                     {
                                         exibirImagem ?
@@ -157,32 +159,33 @@ const ConsultarDenuncia = () => {
                                                 resultado.atualizacoes.length > 0 ?
                                                     <>
                                                         <h1 className="titulo">Atualizações da denúncia</h1><br />
-                                                        <table>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <th>Data</th>
-                                                                    <th>Hora</th>
-                                                                    <th>Detalhes</th>
+                                                        <div className="divTable">
+                                                            <table>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th>Data</th>
+                                                                        <th>Hora</th>
+                                                                        <th>Detalhes</th>
 
-                                                                </tr>
-                                                            </tbody>
-                                                            {
-                                                                resultado.atualizacoes.map(atualizacao =>
-                                                                    <>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <Moment format="DD/MM/YYYY">
-                                                                                    {atualizacao.data}
-                                                                                </Moment>
-                                                                            </td>
-                                                                            <td>{atualizacao.hora.substr(0, 5)}</td>
-                                                                            <td>{atualizacao.atualizacao}</td>
-                                                                        </tr>
-                                                                    </>
-                                                                )
-                                                            }
-                                                        </table>
-
+                                                                    </tr>
+                                                                </tbody>
+                                                                {
+                                                                    resultado.atualizacoes.map(atualizacao =>
+                                                                        <>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <Moment format="DD/MM/YYYY">
+                                                                                        {atualizacao.data}
+                                                                                    </Moment>
+                                                                                </td>
+                                                                                <td>{atualizacao.hora.substr(0, 5)}</td>
+                                                                                <td>{atualizacao.atualizacao}</td>
+                                                                            </tr>
+                                                                        </>
+                                                                    )
+                                                                }
+                                                            </table>
+                                                        </div>
                                                     </>
                                                     :
                                                     <>
@@ -196,8 +199,8 @@ const ConsultarDenuncia = () => {
                                         <button className="botaoVerde" onClick={recarregarPagina}>Voltar </button>
                                     </div>
                                 </div>
-                            </div>
-                    }
+                        }
+                    </div>
                 </div>
             </div>
             <Rodape />

@@ -8,9 +8,11 @@ const Inicio = () => {
         <>
             <Navbar />
             <div className="conteudoInicio">
-                <h1 className="slogan">
-                    Tráfico de animais silvestres é crime. Denuncie!
-                </h1>
+                <div className="divSlogan">
+                    <h1 className="slogan">
+                        Tráfico de animais silvestres é crime. Denuncie!
+                    </h1>
+                </div>
             </div>
             <Rodape />
         </>
